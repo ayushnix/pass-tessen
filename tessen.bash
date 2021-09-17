@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2021 Ayush Agarwal <ayush at fastmail dot in>
 #
 # pass tessen - Password Store Extension (https://www.passwordstore.org)
 # a fuzzy data selection interface for pass using fzf
-
-# list of variables inherited from password-store.sh which are used in this extension
-# PREFIX    - the location of password store
-# CLIP_TIME - the time for which data should be kept in the clipboard
+# ------------------------------------------------------------------------------
 
 # password-store.sh doesn't use nounset, we will
 set -u
+
+# list of variables inherited from password-store.sh used in this extension
+# PREFIX    - the location of password store
+# CLIP_TIME - the time for which data should be kept in the clipboard
 
 # initialize the global variables
 TSN_VERSION="1.0"
