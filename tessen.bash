@@ -14,12 +14,12 @@ set -u
 # CLIP_TIME - the time for which data should be kept in the clipboard
 
 # initialize the global variables
-TSN_VERSION="1.0"
+TSN_VERSION="1.1"
 TSN_PASSFILE=""
 declare -A TSN_PASSDATA_ARR
 TSN_USERNAME=""
 TSN_PASSWORD=""
-TSN_CHOICE=""
+TSN_KEY=""
 TSN_CLIP_CMD=""
 TSN_CLIP_CMD_ARGS=()
 TSN_CLIP_CMD_CLEAR_ARGS=()
@@ -82,15 +82,15 @@ tsn_get_pass_data() {
 
 # the menu for selecting and copying the decrypted data
 tsn_menu() {
-  local ch flag choice_arr
+  local ch flag key_arr
   flag=false
-  choice_arr=("username" "password" "${!TSN_PASSDATA_ARR[@]}")
+  key_arr=("username" "password" "${!TSN_PASSDATA_ARR[@]}")
 
-  TSN_CHOICE="$(printf '%s\n' "${choice_arr[@]}" | fzf)"
+  TSN_KEY="$(printf '%s\n' "${key_arr[@]}" | fzf)"
 
   # although fzf doesn't seem to accept invalid input, we'll still validate it
-  for ch in "${choice_arr[@]}"; do
-    if [[ "$TSN_CHOICE" == "$ch" ]]; then
+  for ch in "${key_arr[@]}"; do
+    if [[ "$TSN_KEY" == "$ch" ]]; then
       flag=true
       break
     fi
@@ -99,17 +99,17 @@ tsn_menu() {
     exit 1
   fi
 
-  if [[ "$TSN_CHOICE" == "username" ]]; then
+  if [[ "$TSN_KEY" == "username" ]]; then
     tsn_clip "$TSN_USERNAME"
     printf '%s\n' "Copied username to clipboard. Will clear in $CLIP_TIME seconds."
     tsn_clean
-  elif [[ "$TSN_CHOICE" == "password" ]]; then
+  elif [[ "$TSN_KEY" == "password" ]]; then
     tsn_clip "$TSN_PASSWORD"
     printf '%s\n' "Copied password to clipboard. Will clear in $CLIP_TIME seconds."
     tsn_clean
-  elif [[ -n "${TSN_PASSDATA_ARR[$TSN_CHOICE]}" ]]; then
-    tsn_clip "${TSN_PASSDATA_ARR[$TSN_CHOICE]}"
-    printf '%s\n' "Copied '$TSN_CHOICE' to clipboard. Will clear in $CLIP_TIME seconds."
+  elif [[ -n "${TSN_PASSDATA_ARR[$TSN_KEY]}" ]]; then
+    tsn_clip "${TSN_PASSDATA_ARR[$TSN_KEY]}"
+    printf '%s\n' "Copied '$TSN_KEY' to clipboard. Will clear in $CLIP_TIME seconds."
     tsn_clean
   else
     exit 1
@@ -151,13 +151,13 @@ tsn_clean() {
     "$TSN_CLIP_CMD" "${TSN_CLIP_CMD_ARGS[*]-}" "${TSN_CLIP_CMD_CLEAR_ARGS[*]-}"
   } > /dev/null 2>&1 &
   disown
-  unset -v TSN_PASSFILE TSN_USERNAME TSN_PASSWORD TSN_PASSDATA_ARR TSN_CHOICE
+  unset -v TSN_PASSFILE TSN_USERNAME TSN_PASSWORD TSN_PASSDATA_ARR TSN_KEY
 }
 
 # function for performing cleanup jobs on errors
 tsn_die() {
   "$TSN_CLIP_CMD" "${TSN_CLIP_CMD_ARGS[*]-}" "${TSN_CLIP_CMD_CLEAR_ARGS[*]-}"
-  unset -v TSN_PASSFILE TSN_USERNAME TSN_PASSWORD TSN_PASSDATA_ARR TSN_CHOICE
+  unset -v TSN_PASSFILE TSN_USERNAME TSN_PASSWORD TSN_PASSDATA_ARR TSN_KEY
 }
 
 # the help menu
