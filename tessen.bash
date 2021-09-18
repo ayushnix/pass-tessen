@@ -169,29 +169,43 @@ tsn_help() {
   printf '\t%s\n' "-v, --version: print the version of $PROGRAM tessen"
 }
 
-while true; do
-  case ${1-} in
-    -h | -\? | --help)
+while [[ "$#" -gt 0 ]]; do
+  tsn_opt="${1-}"
+  case "$tsn_opt" in
+    -p | --preview)
+      TSN_FZF_PRV=true
+      ;;
+    -p*)
+      TSN_FZF_PRV=true
+      ;;
+    -h | --help)
       tsn_help
       exit 0
       ;;
-    -p | --preview)
-      TSN_FZF_PRV=true
+    -h*)
+      tsn_help
+      exit 0
+      ;;
+    -v | --version)
+      printf '%s\n' "$PROGRAM tessen version $TSN_VERSION"
+      exit 0
+      ;;
+    -v*)
+      printf '%s\n' "$PROGRAM tessen version $TSN_VERSION"
+      exit 0
       ;;
     --)
       shift
       break
       ;;
-    -?*)
-      printf '%s\n' "Unknown option: ${1-}" >&2
-      exit 1
-      ;;
     *)
-      break
+      printf '%s\n' "Invalid argument received" >&2
+      exit 1
       ;;
   esac
   shift
 done
+unset -v tsn_opt
 
 tsn_find_clip_cmd
 trap 'tsn_die' EXIT TERM
