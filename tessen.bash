@@ -162,14 +162,11 @@ tsn_die() {
 
 # the help menu
 tsn_help() {
-  printf '%s\n' "pass-tessen version $TSN_VERSION"
-  printf '%s\n' "Usage:" "$PROGRAM tessen [options]"
-  printf '%s\n' "    $PROGRAM tessen uses fzf to provide a fuzzy and interactive data selection menu to"
-  printf '%s\n' "    copy password store data to the clipboard. This includes your password mentioned on"
-  printf '%s\n' "    the first line and any other valid data stored on the lines that follow." ""
-  printf '%s\n' "Options:"
-  printf '%s\n' "    -h, --help      print this help menu and the version number"
-  printf '%s\n' "    -p, --preview   preview your password data"
+  printf '%s\n' "$PROGRAM tessen - a fuzzy data selection interface for pass"
+  printf '%s\n' "Usage: $PROGRAM tessen [-p|--preview] [-h|--help] [-v|--version]"
+  printf '\t%s\n' "-p, --preview: show preview of password data"
+  printf '\t%s\n' "-h, --help:    print this help menu"
+  printf '\t%s\n' "-v, --version: print the version of $PROGRAM tessen"
 }
 
 while true; do
