@@ -134,9 +134,9 @@ tsn_find_clip_cmd() {
 # function to copy the password
 tsn_clip() {
   if [[ -n "$WAYLAND_DISPLAY" || "$XDG_SESSION_TYPE" == "wayland" ]]; then
-    "$TSN_CLIP_CMD" "${1-}"
+    printf '%s' "${1-}" | "$TSN_CLIP_CMD"
   elif [[ "$XDG_SESSION_TYPE" == "x11" || -n "$DISPLAY" ]]; then
-    "$TSN_CLIP_CMD" "${TSN_CLIP_CMD_ARGS[*]-}" "${1-}"
+    printf '%s' "${1-}" | "$TSN_CLIP_CMD" "${TSN_CLIP_CMD_ARGS[*]-}"
   else
     printf '%s\n' "Error: No X11 or Wayland display detected" >&2
     exit 1
