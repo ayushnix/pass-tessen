@@ -14,7 +14,7 @@ set -u
 # CLIP_TIME - the time for which data should be kept in the clipboard
 
 # initialize the global variables
-TSN_VERSION="1.1"
+TSN_VERSION="1.2"
 TSN_PASSFILE=""
 declare -A TSN_PASSDATA_ARR
 TSN_USERNAME=""
