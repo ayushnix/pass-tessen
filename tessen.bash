@@ -9,6 +9,9 @@
 # password-store.sh doesn't use nounset, we will
 set -u
 
+# don't leak password data if debug mode is enabled
+set +x
+
 # list of variables inherited from password-store.sh used in this extension
 # PREFIX    - the location of password store
 # CLIP_TIME - the time for which data should be kept in the clipboard
