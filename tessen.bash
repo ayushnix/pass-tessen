@@ -14,7 +14,7 @@ set -u
 # CLIP_TIME - the time for which data should be kept in the clipboard
 
 # initialize the global variables
-TSN_VERSION="1.2"
+TSN_VERSION="1.3.0"
 TSN_PASSFILE=""
 declare -A TSN_PASSDATA_ARR
 TSN_USERNAME=""
@@ -175,22 +175,11 @@ while [[ "$#" -gt 0 ]]; do
     -p | --preview)
       TSN_FZF_PRV=true
       ;;
-    -p*)
-      TSN_FZF_PRV=true
-      ;;
     -h | --help)
       tsn_help
       exit 0
       ;;
-    -h*)
-      tsn_help
-      exit 0
-      ;;
     -v | --version)
-      printf '%s\n' "$PROGRAM tessen version $TSN_VERSION"
-      exit 0
-      ;;
-    -v*)
       printf '%s\n' "$PROGRAM tessen version $TSN_VERSION"
       exit 0
       ;;
