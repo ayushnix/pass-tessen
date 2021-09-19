@@ -7,6 +7,13 @@ If you want to autotype and copy password-store data, similar to how
 [rofi-pass](https://github.com/carnager/rofi-pass) works, check out
 [tessen](https://github.com/ayushnix/tessen).
 
+`pass-tessen` will automatically use the following environment variables if they're set or assume
+reasonable defaults if not.
+
+- `PASSWORD_STORE_DIR` (the default location of your password store)
+- `PASSWORD_STORE_CLIP_TIME` (the amount of time for which password-store data stays on the
+  clipboard)
+
 ## Installation
 
 Before installing `pass-tessen`, make sure you've added the following line in `~/.bash_profile` or
