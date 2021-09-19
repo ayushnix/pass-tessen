@@ -12,7 +12,6 @@ If you want to autotype and copy password-store data, similar to how
 ### Dependencies
 
 - [pass](https://git.zx2c4.com/password-store/)
-- [bash](https://www.gnu.org/software/bash/bash.html)
 - [fzf](https://github.com/junegunn/fzf)
 - [xclip](https://github.com/astrand/xclip) (if you're using X11/Xorg)
 - [wl-clipboard](https://github.com/bugaevc/wl-clipboard) or
