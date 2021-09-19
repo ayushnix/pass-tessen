@@ -9,6 +9,15 @@ If you want to autotype and copy password-store data, similar to how
 
 ## Installation
 
+Before installing `pass-tessen`, make sure you've added the following line in `~/.bash_profile` or
+an equivalent file and have logged out and logged back in.
+
+```
+export PASSWORD_STORE_ENABLE_EXTENSIONS=true
+```
+
+Password Store extensions will not work if this environment variable isn't set.
+
 ### Dependencies
 
 - [pass](https://git.zx2c4.com/password-store/)
