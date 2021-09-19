@@ -47,6 +47,8 @@ Usage: pass tessen [-p|--preview] [-h|--help] [-v|--version]
   possible while using a terminal
 - you don't need `sed`, `find`, GNU coreutils, or anything else besides what's mentioned above to
   run pass-tessen (although `pass` needs all of those binaries)
+- the code is linted using [shellcheck](https://github.com/koalaman/shellcheck) and formatted using
+  [shfmt](https://github.com/mvdan/sh)
 - focuses on minimalism and security (please let me know if you have any suggestions for
   improvement)
 
