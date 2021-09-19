@@ -171,6 +171,7 @@ tsn_help() {
   printf '\t%s\n' "-p, --preview: show preview of password data"
   printf '\t%s\n' "-h, --help:    print this help menu"
   printf '\t%s\n' "-v, --version: print the version of $PROGRAM ${0##*/}"
+  printf '%s\n' "For more details, visit https://github.com/ayushnix/pass-tessen"
 }
 
 while [[ "$#" -gt 0 ]]; do
