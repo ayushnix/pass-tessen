@@ -96,6 +96,22 @@ Usage: pass tessen [-p|--preview] [-h|--help] [-v|--version]
 - focuses on minimalism and security (please let me know if you have any suggestions for
   improvement)
 
+## Assumptions
+
+`pass-tessen` works under several assumptions and tries to fail gracefully if they are not met.
+Please report any unexpected behavior.
+
+The data organization format is assumed to be the same as mentioned on this
+[page](https://www.passwordstore.org/). If valid key-value pairs aren't found, `pass-tessen` will
+not show them.
+
+It is assumed that the name of the file itself is the username. For example, if you have a file
+`bank/mybankusername.gpg` in your password store, the assumed default username is `mybankusername`.
+However, if a valid username key value pair is present inside the file, `pass-tessen` will show them
+for selection as well.
+
+If there are multiple non-unique keys, the value of the last key will be considered.
+
 ## What does `tessen` mean?
 
 [Here](https://en.wikipedia.org/wiki/Japanese_war_fan) you go.
