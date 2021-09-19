@@ -12,6 +12,7 @@ set -u
 # list of variables inherited from password-store.sh used in this extension
 # PREFIX    - the location of password store
 # CLIP_TIME - the time for which data should be kept in the clipboard
+# PROGRAM   - the name of password-store, pass
 
 # initialize the global variables
 TSN_VERSION="1.3.0"
@@ -162,11 +163,11 @@ tsn_die() {
 
 # the help menu
 tsn_help() {
-  printf '%s\n' "$PROGRAM tessen - a fuzzy data selection interface for pass"
-  printf '%s\n' "Usage: $PROGRAM tessen [-p|--preview] [-h|--help] [-v|--version]"
+  printf '%s\n' "$PROGRAM ${0##*/} - a fuzzy data selection interface for pass"
+  printf '%s\n' "Usage: $PROGRAM ${0##*/} [-p|--preview] [-h|--help] [-v|--version]"
   printf '\t%s\n' "-p, --preview: show preview of password data"
   printf '\t%s\n' "-h, --help:    print this help menu"
-  printf '\t%s\n' "-v, --version: print the version of $PROGRAM tessen"
+  printf '\t%s\n' "-v, --version: print the version of $PROGRAM ${0##*/}"
 }
 
 while [[ "$#" -gt 0 ]]; do
@@ -180,7 +181,7 @@ while [[ "$#" -gt 0 ]]; do
       exit 0
       ;;
     -v | --version)
-      printf '%s\n' "$PROGRAM tessen version $TSN_VERSION"
+      printf '%s\n' "$PROGRAM ${0##*/} version $TSN_VERSION"
       exit 0
       ;;
     --)
