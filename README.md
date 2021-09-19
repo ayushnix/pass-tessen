@@ -1,4 +1,4 @@
-# pass-tessen
+## pass-tessen
 
 A [pass](https://www.passwordstore.org/) extension that uses [fzf](https://github.com/junegunn/fzf)
 to select and copy password store data.
@@ -7,7 +7,9 @@ If you want to autotype and copy password-store data, similar to how
 [rofi-pass](https://github.com/carnager/rofi-pass) works, check out
 [tessen](https://github.com/ayushnix/tessen).
 
-## Dependencies
+## Installation
+
+### Dependencies
 
 - [pass](https://git.zx2c4.com/password-store/)
 - [bash](https://www.gnu.org/software/bash/bash.html)
@@ -15,6 +17,33 @@ If you want to autotype and copy password-store data, similar to how
 - [xclip](https://github.com/astrand/xclip) (if you're using X11/Xorg)
 - [wl-clipboard](https://github.com/bugaevc/wl-clipboard) or
   [wl-clipboard-rs](https://github.com/YaLTeR/wl-clipboard-rs) (if you're using Wayland)
+
+### Arch Linux
+
+`pass-tessen` is available in the [Arch User
+Repository](https://aur.archlinux.org/packages/pass-tessen/).
+
+### Git Release
+
+```
+git clone https://github.com/ayushnix/pass-tessen.git
+cd pass-tessen
+sudo make install
+```
+
+You can also do `doas make install` if you're using [doas](https://github.com/Duncaen/OpenDoas),
+which you probably should.
+
+### Stable Release
+
+```
+wget https://github.com/ayushnix/pass-tessen/releases/download/v1.5.0/pass-tessen-1.5.0.tar.gz
+tar xvzf pass-tessen-1.5.0.tar.gz
+cd pass-tessen-1.5.0
+sudo make install
+```
+
+or, you know, `doas make install`.
 
 ## Usage
 
@@ -61,3 +90,7 @@ Usage: pass tessen [-p|--preview] [-h|--help] [-v|--version]
 Because obvious names like pass-fzf and pass-clip are already taken by other projects? Also, for
 some reason, the way how FZF's UI instantly opens up and displays relevant information reminded me
 of Japanese hand fans. I guess I was thinking of some anime while coming up with this name.
+
+## Contributions
+
+Please see [this](https://github.com/ayushnix/pass-tessen/blob/master/CONTRIBUTING.md) file.
