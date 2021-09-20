@@ -3,7 +3,7 @@ PREFIX ?= /usr
 DESTDIR ?=
 LIBDIR ?= $(PREFIX)/lib
 SYSTEM_EXTENSION_DIR ?= $(LIBDIR)/password-store/extensions
-BASHCOMPDIR ?= $(PREFIX)/share/bash-completion/completions
+BASHCOMPDIR ?= /etc/bash_completion.d
 
 all:
 	@echo "pass-$(PROG) is a shell script and doesn't need to be compiled"
