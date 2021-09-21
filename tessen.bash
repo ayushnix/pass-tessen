@@ -18,7 +18,7 @@ set +x
 # PROGRAM   - the name of password-store, pass
 
 # initialize the global variables
-TSN_VERSION="1.4.0"
+TSN_VERSION="1.5.2"
 TSN_PASSFILE=""
 declare -A TSN_PASSDATA_ARR
 TSN_USERNAME=""
