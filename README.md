@@ -52,9 +52,9 @@ which you probably should.
 ### Stable Release
 
 ```
-wget https://github.com/ayushnix/pass-tessen/releases/download/v1.5.2/pass-tessen-1.5.2.tar.gz
-tar xvzf pass-tessen-1.5.2.tar.gz
-cd pass-tessen-1.5.2
+wget https://github.com/ayushnix/pass-tessen/releases/download/v1.5.3/pass-tessen-1.5.3.tar.gz
+tar xvzf pass-tessen-1.5.3.tar.gz
+cd pass-tessen-1.5.3
 sudo make install
 ```
 

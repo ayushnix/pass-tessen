@@ -18,7 +18,7 @@ set +x
 # PROGRAM   - the name of password-store, pass
 
 # initialize the global variables
-TSN_VERSION="1.5.2"
+TSN_VERSION="1.5.3"
 TSN_PASSFILE=""
 declare -A TSN_PASSDATA_ARR
 TSN_USERNAME=""
@@ -166,11 +166,11 @@ tsn_die() {
 
 # the help menu
 tsn_help() {
-  printf '%s\n' "$PROGRAM ${0##*/} - a fuzzy data selection interface for pass"
-  printf '%s\n' "Usage: $PROGRAM ${0##*/} [-p|--preview] [-h|--help] [-v|--version]"
+  printf '%s\n' "$PROGRAM tessen - a fuzzy data selection interface for pass"
+  printf '%s\n' "Usage: $PROGRAM tessen [-p|--preview] [-h|--help] [-v|--version]"
   printf '\t%s\n' "-p, --preview: show preview of password data"
   printf '\t%s\n' "-h, --help:    print this help menu"
-  printf '\t%s\n' "-v, --version: print the version of $PROGRAM ${0##*/}"
+  printf '\t%s\n' "-v, --version: print the version of $PROGRAM tessen"
   printf '%s\n' "For more details, visit https://github.com/ayushnix/pass-tessen"
 }
 
@@ -185,7 +185,7 @@ while [[ "$#" -gt 0 ]]; do
       exit 0
       ;;
     -v | --version)
-      printf '%s\n' "$PROGRAM ${0##*/} version $TSN_VERSION"
+      printf '%s\n' "$PROGRAM tessen version $TSN_VERSION"
       exit 0
       ;;
     --)
