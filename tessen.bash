@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# SPDX-License-Identifier: GPL-2.0-or-later
-# Copyright (C) 2021 Ayush Agarwal <ayush at fastmail dot in>
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2021 Ayush Agarwal <ayushnix at fastmail dot com>
 #
 # pass tessen - Password Store Extension (https://www.passwordstore.org)
 # a fuzzy data selection interface for pass using fzf
