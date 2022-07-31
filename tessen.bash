@@ -14,6 +14,12 @@ readonly tsn_version="2.0.0"
 declare tsn_passfile fz_backend
 declare -a fz_backend_opts
 
+# FIRST MENU: generate list of password store files and let user select one
+get_pass_file() {
+  local tmp_prefix="${PREFIX:-$PASSWORD_STORE_DIR}"
+  if ! [[ -d $tmp_prefix ]]; then
+    _die "error: password store directory not found"
+  fi
 
 # set the default fzf options
 fzf_opt=("--no-multi --height=50 --info=hidden --prompt='pass: ' --layout=reverse")
