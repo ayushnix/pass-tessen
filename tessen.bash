@@ -38,31 +38,55 @@ get_pass_file() {
   unset -v tmp_pass_files tmp_prefix
 }
 
-# get the password data including every key-value pair inside the encrypted file
-tsn_get_pass_data() {
-  local passdata passdata_regex idx key val
+# parse the selected password store file in the FIRST MENU
+get_pass_data() {
+  local -a passdata
 
-  mapfile -t passdata < <(pass "$TSN_PASSFILE")
-  # ASSUMPTION: the key can contain alphanumerics, spaces, hyphen, underscore
-  #             the value can contain anything but it has to follow after a space
-  passdata_regex="^[[:alnum:][:blank:]_-]+:[[:blank:]].+$"
-  # ASSUMPTION: the basename of the gpg file is the username although one can still
-  #             select a username field inside the file, if it exists
-  TSN_USERNAME="${TSN_PASSFILE##*/}"
-  # ASSUMPTION: the first line of $PASSFILE will contain the password
-  TSN_PASSWORD="${passdata[0]}"
+  mapfile -t passdata < <(pass show "$tsn_passfile" 2> /dev/null)
+  if [[ ${#passdata[@]} -eq 0 ]]; then
+    _die "error: $tsn_passfile is empty"
+  fi
 
-  # skip the password, validate each entry against $passdata_regex, store valid results
-  # ASSUMPTION: each key is unique otherwise, the value of the last non-unique key will be used
+  local keyval_regex
+  keyval_regex='^[[:alnum:][:blank:]+#@_-]+:[[:blank:]].+$'
+
+  local otp_regex
+  # this regex is borrowed from pass-otp at commit 3ba564c
+  otp_regex='^otpauth:\/\/(totp|hotp)(\/(([^:?]+)?(:([^:?]*))?)(:([0-9]+))?)?\?(.+)$'
+
+  tsn_password="${passdata[0]}"
+
+  local key val idx
+  # we've assumed that keys are unique and if they aren't, the first non-unique
+  # key will be considered and other non-unique keys will be ignored
+  # this has been done to improve performance and eliminate ambiguity
   for idx in "${passdata[@]:1}"; do
-    if [[ "$idx" =~ $passdata_regex ]]; then
-      key="${idx%%:*}"
-      val="${idx#*: }"
-      TSN_PASSDATA_ARR["$key"]="$val"
-    else
+    key="${idx%%:*}"
+    val="${idx#*: }"
+    if [[ ${key,,} == "password" ]]; then
       continue
+    elif [[ ${key,,} =~ ^$tsn_userkey$ ]] && [[ -z $tsn_username ]]; then
+      tsn_userkey="${key,,}"
+      tsn_username="$val"
+    elif [[ ${key,,} =~ ^$tsn_urlkey$ ]] && [[ -z $tsn_url ]]; then
+      tsn_urlkey="${key,,}"
+      tsn_url="$val"
+    elif [[ $idx =~ $otp_regex ]] && [[ $tsn_otp == "false" ]]; then
+      tsn_otp=true
+    elif [[ $idx =~ $keyval_regex ]] && [[ -z ${tsn_passdata["$key"]} ]]; then
+      tsn_passdata["$key"]="$val"
     fi
   done
+
+  # if a user key isn't found, assume that the basename of the selected file is
+  # the username
+  # this is mentioned because the value of the username key cannot be blank and
+  # this acts like a sensible fallback option
+  if [[ -z $tsn_username ]]; then
+    tsn_username="${tsn_passfile##*/}"
+  fi
+
+  unset -v passdata keyval_regex otp_regex key val idx
 }
 
 # the menu for selecting and copying the decrypted data
