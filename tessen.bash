@@ -6,9 +6,6 @@
 # a fuzzy data selection interface for pass using fzf
 # ------------------------------------------------------------------------------
 
-# password-store.sh doesn't use nounset, we will
-set -u
-
 # don't leak password data if debug mode is enabled
 set +x
 
