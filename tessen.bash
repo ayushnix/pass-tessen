@@ -6,25 +6,14 @@
 # a fuzzy data selection interface for pass using fzf
 # ------------------------------------------------------------------------------
 
-# don't leak password data if debug mode is enabled
+# disable debug mode to prevent leaking sensitive password store data
 set +x
 
-# list of variables inherited from password-store.sh used in this extension
-# PREFIX    - the location of password store
-# CLIP_TIME - the time for which data should be kept in the clipboard
-# PROGRAM   - the name of password-store, pass
+# initialize global variables
+readonly tsn_version="2.0.0"
+declare tsn_passfile fz_backend
+declare -a fz_backend_opts
 
-# initialize the global variables
-TSN_VERSION="1.5.3"
-TSN_PASSFILE=""
-declare -A TSN_PASSDATA_ARR
-TSN_USERNAME=""
-TSN_PASSWORD=""
-TSN_KEY=""
-TSN_CLIP_CMD=""
-TSN_CLIP_CMD_ARGS=()
-TSN_CLIP_CMD_CLEAR_ARGS=()
-TSN_FZF_PRV=false
 
 # set the default fzf options
 fzf_opt=("--no-multi --height=50 --info=hidden --prompt='pass: ' --layout=reverse")
