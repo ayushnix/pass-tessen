@@ -11,8 +11,13 @@ set +x
 
 # initialize global variables
 readonly tsn_version="2.0.0"
-declare tsn_passfile fz_backend
+declare tsn_passfile fz_backend tsn_password tsn_username tsn_userkey tsn_urlkey
+declare tsn_url tsn_otp
 declare -a fz_backend_opts
+declare -A tsn_passdata
+tsn_otp=false
+tsn_userkey="user"
+tsn_url="url"
 
 # FIRST MENU: generate list of password store files and let user select one
 get_pass_file() {
