@@ -21,32 +21,21 @@ get_pass_file() {
     _die "error: password store directory not found"
   fi
 
-# set the default fzf options
-fzf_opt=("--no-multi --height=50 --info=hidden --prompt='pass: ' --layout=reverse")
-FZF_DEFAULT_OPTS="${fzf_opt[*]-}"
-export FZF_DEFAULT_OPTS
-unset -v fzf_opt
-
-# display and get the shortened path of the password file
-tsn_get_pass_file() {
-  local tmp_pass_1 tmp_pass_2 tmp_pass_3
-
-  # temporarily enable globbing to get the list of gpg files
+  local -a tmp_pass_files
   shopt -s nullglob globstar
-  tmp_pass_1=("$PREFIX"/**/*.gpg)
-  tmp_pass_2=("${tmp_pass_1[@]#"$PREFIX"/}")
-  tmp_pass_3=("${tmp_pass_2[@]%.gpg}")
+  tmp_pass_files=("$tmp_prefix"/**/*.gpg)
+  tmp_pass_files=("${tmp_pass_files[@]#"$tmp_prefix"/}")
+  tmp_pass_files=("${tmp_pass_files[@]%.gpg}")
   shopt -u nullglob globstar
 
-  if "$TSN_FZF_PRV"; then
-    TSN_PASSFILE="$(printf '%s\n' "${tmp_pass_3[@]}" | fzf --preview='pass {}')"
-  else
-    TSN_PASSFILE="$(printf '%s\n' "${tmp_pass_3[@]}" | fzf)"
+  tsn_passfile="$(printf "%s\n" "${tmp_pass_files[@]}" \
+    | "$fz_backend" "${fz_backend_opts[@]}")"
+
+  if ! [[ -f "$tmp_prefix/$tsn_passfile".gpg ]]; then
+    _die "error: the selected file was not found"
   fi
 
-  if ! [[ -e "$PREFIX/$TSN_PASSFILE".gpg ]]; then
-    exit 1
-  fi
+  unset -v tmp_pass_files tmp_prefix
 }
 
 # get the password data including every key-value pair inside the encrypted file
