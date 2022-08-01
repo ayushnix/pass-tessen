@@ -313,8 +313,11 @@ while [[ $# -gt 0 ]]; do
       readonly fz_preview=true
       ;;
     -f | --fuzzy)
-      if [[ $# -lt 2 ]] || ! is_installed "$2"; then
+      if [[ $# -lt 2 ]]; then
         _die "error: please specify a valid fuzzy selection backend"
+      fi
+      if ! is_installed "$2"; then
+        _die "error: $2 is not installed"
       fi
       readonly fz_backend="$2"
       init_fz_backend
@@ -337,6 +340,9 @@ while [[ $# -gt 0 ]]; do
     -w | --web-browser)
       if [[ $# -lt 2 ]]; then
         _die "error: please specify the web browser to use for opening URLs"
+      fi
+      if ! is_installed "$2"; then
+        _die "error: $2 is not installed"
       fi
       readonly tsn_web_browser="$2"
       shift
