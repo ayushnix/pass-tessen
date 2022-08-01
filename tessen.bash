@@ -35,8 +35,13 @@ get_pass_file() {
   tmp_pass_files=("${tmp_pass_files[@]%.gpg}")
   shopt -u nullglob globstar
 
-  tsn_passfile="$(printf "%s\n" "${tmp_pass_files[@]}" \
-    | "$fz_backend" "${fz_backend_opts[@]}")"
+  if [[ $fz_preview == "true" ]] && [[ $fz_backend != "fzy" ]]; then
+    tsn_passfile="$(printf "%s\n" "${tmp_pass_files[@]}" \
+      | "$fz_backend" "${fz_backend_opts[@]}" --preview='pass show {}')"
+  else
+    tsn_passfile="$(printf "%s\n" "${tmp_pass_files[@]}" \
+      | "$fz_backend" "${fz_backend_opts[@]}")"
+  fi
 
   if ! [[ -f "$tmp_prefix/$tsn_passfile".gpg ]]; then
     _die "error: the selected file was not found"
