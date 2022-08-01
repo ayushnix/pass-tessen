@@ -266,28 +266,54 @@ tsn_help() {
   printf '%s\n' "For more details, visit https://github.com/ayushnix/pass-tessen"
 }
 
-while [[ "$#" -gt 0 ]]; do
-  tsn_opt="${1-}"
+while [[ $# -gt 0 ]]; do
+  tsn_opt="$1"
   case "$tsn_opt" in
     -p | --preview)
-      TSN_FZF_PRV=true
+      readonly fz_preview=true
+      ;;
+    -f | --fuzzy)
+      if [[ $# -lt 2 ]] || ! is_installed "$2"; then
+        _die "error: please specify a valid fuzzy selection backend"
+      fi
+      readonly fz_backend="$2"
+      init_fz_backend
+      shift
+      ;;
+    -u | --userkey)
+      if [[ $# -lt 2 ]]; then
+        _die "error: please specify a custom username key"
+      fi
+      readonly tsn_userkey="$2"
+      shift
+      ;;
+    -U | --urlkey)
+      if [[ $# -lt 2 ]]; then
+        _die "error: please specify a custom URL key"
+      fi
+      readonly tsn_urlkey="$2"
+      shift
+      ;;
+    -w | --web-browser)
+      if [[ $# -lt 2 ]]; then
+        _die "error: please specify the web browser to use for opening URLs"
+      fi
+      readonly tsn_web_browser="$2"
+      shift
       ;;
     -h | --help)
       tsn_help
       exit 0
       ;;
     -v | --version)
-      printf '%s\n' "$PROGRAM tessen version $TSN_VERSION"
+      printf "%s\n" "$PROGRAM tessen version $tsn_version"
       exit 0
       ;;
     --)
       shift
       break
       ;;
-    *)
-      printf '%s\n' "Invalid argument received" >&2
-      exit 1
-      ;;
+    *) _die "error: invalid option detected" ;;
   esac
   shift
 done
