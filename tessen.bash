@@ -19,7 +19,7 @@ declare -a fz_backend_opts
 declare -A tsn_passdata
 tsn_otp=false
 tsn_userkey="user"
-tsn_url="url"
+tsn_urlkey="url"
 
 # FIRST MENU: generate list of password store files and let user select one
 get_pass_file() {
