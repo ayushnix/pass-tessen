@@ -192,6 +192,28 @@ tsn_clip() {
   unset -v tsn_clip_cmd tsn_clip_args
 }
 
+# find a fuzzy selection backend if not provided by the user and initialize
+# settings for it
+find_fz_backend() {
+  if [[ -z $fz_backend ]]; then
+    local -a fz_prog=('fzf' 'sk' 'fzy')
+    local idx
+
+    for idx in "${fz_prog[@]}"; do
+      if is_installed "$idx"; then
+        fz_backend="$idx"
+        break
+      fi
+    done
+  fi
+
+  if [[ -z $fz_backend ]]; then
+    _die "error: unable to find a fuzzy selection program"
+  fi
+
+  init_fz_backend
+
+  unset -v fz_prog idx
 }
 
 # function for performing cleanup jobs on errors
