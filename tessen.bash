@@ -221,6 +221,7 @@ find_fz_backend() {
   unset -v fz_prog idx
 }
 
+# initialize the default options for the fuzzy selection backend program
 init_fz_backend() {
   case "$fz_backend" in
     fzf)
@@ -356,9 +357,11 @@ while [[ $# -gt 0 ]]; do
 done
 unset -v tsn_opt
 
-tsn_find_clip_cmd
-trap 'tsn_die' EXIT TERM
-tsn_get_pass_file
-tsn_get_pass_data
-tsn_menu
-trap - EXIT TERM
+if [[ -z $fz_backend ]]; then
+  find_fz_backend
+fi
+
+get_pass_file
+get_pass_data
+get_key
+key_action
