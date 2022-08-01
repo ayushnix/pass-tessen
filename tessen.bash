@@ -154,10 +154,12 @@ key_action() {
     "$tsn_urlkey")
       if [[ -n $tsn_web_browser ]]; then
         "$tsn_web_browser" "$tsn_url" > /dev/null 2>&1 \
-          || _die "error: unable to open URL using $tsn_web_browser"
+          || _die "error: unable to open URL using $tsn_web_browser" &
+        printf "%s\n" "URL has been opened in $tsn_web_browser"
       elif is_installed xdg-open; then
         xdg-open "$tsn_url" > /dev/null 2>&1 \
-          || _die "error: unable to open URL using xdg-open"
+          || _die "error: unable to open URL using xdg-open" &
+        printf "%s\n" "URL has been opened using xdg-open"
       else
         _die "error: unable to open URL"
       fi
