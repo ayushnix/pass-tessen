@@ -165,42 +165,33 @@ key_action() {
   unset -v tmp_otp
 }
 
-# copy the password store data using either xclip (X11) or wl-copy (Wayland)
-tsn_find_clip_cmd() {
-  if [[ -n "$WAYLAND_DISPLAY" || "$XDG_SESSION_TYPE" == "wayland" ]]; then
-    TSN_CLIP_CMD="wl-copy"
-    TSN_CLIP_CMD_CLEAR_ARGS=("--clear")
-  elif [[ "$XDG_SESSION_TYPE" == "x11" || -n "$DISPLAY" ]]; then
-    TSN_CLIP_CMD="xclip"
-    TSN_CLIP_CMD_ARGS=("-selection" "clipboard")
-    TSN_CLIP_CMD_CLEAR_ARGS=("-i" "/dev/null")
-  else
-    printf '%s\n' "Error: No X11 or Wayland display detected" >&2
-    exit 1
-  fi
-}
-
-# function to copy the password
+# apparently, $XDG_SESSION_TYPE isn't reliable and can output `tty` instead of
+# `wayland` or `x11` if a display manager isn't being used
 tsn_clip() {
-  if [[ -n "$WAYLAND_DISPLAY" || "$XDG_SESSION_TYPE" == "wayland" ]]; then
-    printf '%s' "${1-}" | "$TSN_CLIP_CMD"
-  elif [[ "$XDG_SESSION_TYPE" == "x11" || -n "$DISPLAY" ]]; then
-    printf '%s' "${1-}" | "$TSN_CLIP_CMD" "${TSN_CLIP_CMD_ARGS[*]-}"
+  local -a tsn_clip_cmd tsn_clip_args
+
+  if [[ -n $WAYLAND_DISPLAY ]]; then
+    tsn_clip_cmd=("wl-copy" "--trim-newline")
+    tsn_clip_args=("--clear")
   else
-    printf '%s\n' "Error: No X11 or Wayland display detected" >&2
-    exit 1
+    tsn_clip_cmd=("xclip" "-selection" "clipboard" "-rmlastnl")
+    tsn_clip_args=("-i" "/dev/null")
   fi
-  shift
+
+  if [[ -n $1 ]]; then
+    printf "%s" "$1" | "${tsn_clip_cmd[@]}"
+    printf "%s\n" "data has been copied and will be cleared from the clipboard after $CLIP_TIME seconds"
+    {
+      sleep "$CLIP_TIME" || kill 0
+      "${tsn_clip_cmd[@]}" "${tsn_clip_args[@]}"
+    } > /dev/null 2>&1 &
+  else
+    _die "error: no data found for copying"
+  fi
+
+  unset -v tsn_clip_cmd tsn_clip_args
 }
 
-# copy the password, wait for CLIP_TIME seconds, clear the clipboard, and exit
-tsn_clean() {
-  {
-    sleep "$CLIP_TIME" || exit 1
-    "$TSN_CLIP_CMD" "${TSN_CLIP_CMD_ARGS[*]-}" "${TSN_CLIP_CMD_CLEAR_ARGS[*]-}"
-  } > /dev/null 2>&1 &
-  disown
-  unset -v TSN_PASSFILE TSN_USERNAME TSN_PASSWORD TSN_PASSDATA_ARR TSN_KEY
 }
 
 # function for performing cleanup jobs on errors
