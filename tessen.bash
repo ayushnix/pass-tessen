@@ -327,14 +327,14 @@ while [[ $# -gt 0 ]]; do
       if [[ $# -lt 2 ]]; then
         _die "error: please specify a custom username key"
       fi
-      readonly tsn_userkey="$2"
+      tsn_userkey="$2"
       shift
       ;;
     -U | --urlkey)
       if [[ $# -lt 2 ]]; then
         _die "error: please specify a custom URL key"
       fi
-      readonly tsn_urlkey="$2"
+      tsn_urlkey="$2"
       shift
       ;;
     -w | --web-browser)
