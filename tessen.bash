@@ -96,24 +96,36 @@ get_pass_data() {
   unset -v passdata keyval_regex otp_regex key val idx
 }
 
-# the menu for selecting and copying the decrypted data
-tsn_menu() {
-  local ch flag key_arr
-  flag=false
-  key_arr=("username" "password" "${!TSN_PASSDATA_ARR[@]}")
+# SECOND MENU: generate a menu with a list of keys present in the selected file
+# in the FIRST MENU
+get_key() {
+  local -a key_arr
 
-  TSN_KEY="$(printf '%s\n' "${key_arr[@]}" | fzf)"
+  if [[ $tsn_otp == "false" ]] && [[ -z $tsn_url ]]; then
+    key_arr=("$tsn_userkey" "password" "${!tsn_passdata[@]}")
+  elif [[ $tsn_otp == "false" ]] && [[ -n $tsn_url ]]; then
+    key_arr=("$tsn_userkey" "password" "$tsn_urlkey" "${!tsn_passdata[@]}")
+  elif [[ $tsn_otp == "true" ]] && [[ -z $tsn_url ]]; then
+    key_arr=("$tsn_userkey" "password" "otp" "${!tsn_passdata[@]}")
+  elif [[ $tsn_otp == "true" ]] && [[ -n $tsn_url ]]; then
+    key_arr=("$tsn_userkey" "password" "otp" "$tsn_urlkey" "${!tsn_passdata[@]}")
+  fi
 
-  # although fzf doesn't seem to accept invalid input, we'll still validate it
+  chosen_key="$(printf "%s\n" "${key_arr[@]}" | "$fz_backend" "${fz_backend_opts[@]}")"
+
+  local ch flag=false
   for ch in "${key_arr[@]}"; do
-    if [[ "$TSN_KEY" == "$ch" ]]; then
+    if [[ $chosen_key == "$ch" ]]; then
       flag=true
       break
     fi
   done
-  if ! "$flag"; then
-    exit 1
+  if [[ $flag == "false" ]]; then
+    _die "error: the chosen key doesn't exist"
   fi
+
+  unset -v key_arr ch flag
+}
 
   if [[ "$TSN_KEY" == "username" ]]; then
     tsn_clip "$TSN_USERNAME"
