@@ -236,7 +236,27 @@ init_fz_backend() {
   esac
 }
 
-# the help menu
+is_installed() {
+  if command -v "$1" > /dev/null 2>&1; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+_die() {
+  if [[ -n $1 ]]; then
+    if [[ -z $NO_COLOR ]]; then
+      local red="\033[31m"
+      local reset="\033[0m"
+      printf "%b%s%b\n" "$red" "$1" "$reset" >&2
+    else
+      printf "%s\n" "$1" >&2
+    fi
+  fi
+  exit 1
+}
+
 tsn_help() {
   printf '%s\n' "$PROGRAM tessen - a fuzzy data selection interface for pass"
   printf '%s\n' "Usage: $PROGRAM tessen [-p|--preview] [-h|--help] [-v|--version]"
