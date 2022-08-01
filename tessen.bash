@@ -300,7 +300,7 @@ like (true, 1, yes).
 
 for reporting bugs or feedback, visit one of the following git forge providers
 https://git.sr.ht/~ayushnix/pass-tessen
-https://codeberg.com/ayushnix/pass-tessen
+https://codeberg.org/ayushnix/pass-tessen
 https://gitlab.com/ayushnix/pass-tessen
 https://github.com/ayushnix/pass-tessen
 "
