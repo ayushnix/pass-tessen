@@ -127,21 +127,42 @@ get_key() {
   unset -v key_arr ch flag
 }
 
-  if [[ "$TSN_KEY" == "username" ]]; then
-    tsn_clip "$TSN_USERNAME"
-    printf '%s\n' "Copied username to clipboard. Will clear in $CLIP_TIME seconds."
-    tsn_clean
-  elif [[ "$TSN_KEY" == "password" ]]; then
-    tsn_clip "$TSN_PASSWORD"
-    printf '%s\n' "Copied password to clipboard. Will clear in $CLIP_TIME seconds."
-    tsn_clean
-  elif [[ -n "${TSN_PASSDATA_ARR[$TSN_KEY]}" ]]; then
-    tsn_clip "${TSN_PASSDATA_ARR[$TSN_KEY]}"
-    printf '%s\n' "Copied '$TSN_KEY' to clipboard. Will clear in $CLIP_TIME seconds."
-    tsn_clean
-  else
-    exit 1
-  fi
+# copy the selected key
+# if OTP is selected, use pass-otp to generate and copy a OTP
+# if URL is selected, open it using `xdg-open` or a configurable browser value
+# I don't expect invalid input in $chosen_key which is why the case statement
+# doesn't account for invalid values in this subroutine
+key_action() {
+  local tmp_otp
+
+  case "$chosen_key" in
+    otp)
+      if ! pass otp -h > /dev/null 2>&1; then
+        _die "error: pass-otp is not installed"
+      fi
+      tmp_otp="$(pass otp "$tsn_passfile")"
+      if ! [[ $tmp_otp =~ ^[[:digit:]]+$ ]]; then
+        _die "error: invalid OTP detected"
+      fi
+      tsn_clip "$tmp_otp"
+      ;;
+    "$tsn_urlkey")
+      if [[ -n $tsn_web_browser ]]; then
+        "$tsn_web_browser" "$tsn_url" > /dev/null 2>&1 \
+          || _die "error: unable to open URL using $tsn_web_browser"
+      elif is_installed xdg-open; then
+        xdg-open "$tsn_url" > /dev/null 2>&1 \
+          || _die "error: unable to open URL using xdg-open"
+      else
+        _die "error: unable to open URL"
+      fi
+      ;;
+    "$tsn_userkey") tsn_clip "$tsn_username" ;;
+    password) tsn_clip "$tsn_password" ;;
+    *) tsn_clip "${tsn_passdata[$chosen_key]}" ;;
+  esac
+
+  unset -v tmp_otp
 }
 
 # copy the password store data using either xclip (X11) or wl-copy (Wayland)
