@@ -263,12 +263,44 @@ _die() {
 }
 
 tsn_help() {
-  printf '%s\n' "$PROGRAM tessen - a fuzzy data selection interface for pass"
-  printf '%s\n' "Usage: $PROGRAM tessen [-p|--preview] [-h|--help] [-v|--version]"
-  printf '\t%s\n' "-p, --preview: show preview of password data"
-  printf '\t%s\n' "-h, --help:    print this help menu"
-  printf '\t%s\n' "-v, --version: print the version of $PROGRAM tessen"
-  printf '%s\n' "For more details, visit https://github.com/ayushnix/pass-tessen"
+  printf "%s" "\
+$PROGRAM tessen - a fuzzy data selection interface for pass
+
+usage: $PROGRAM tessen [-p|--preview] [-f|--fuzzy fuzzy_backend_program]
+                       [-u|--userkey custom_username_key]
+                       [-U|--urlkey custom_url_key]
+                       [-w|--web-browser custom_web_browser] [-h|--help]
+                       [-v|--version]
+
+$PROGRAM tessen                find a fuzzy selection program and show pass data
+$PROGRAM tessen -p             show preview while selecting a pass file
+$PROGRAM tessen -p -f sk       use skim as fuzzy backend and show preview
+$PROGRAM tessen -f fzy         use fzy as fuzzy backend; doesn't support preview
+$PROGRAM tessen -u username    set 'username' as the custom username key
+$PROGRAM tessen -U URL         set 'URL' as the custom URL key
+$PROGRAM tessen -w qutebrowser use qutebrowser to open URLs
+$PROGRAM tessen -h             show this help menu
+$PROGRAM tessen -v             show the version of pass tessen
+
+if no fuzzy selection program is specified, $PROGRAM tessen looks for either
+one of fzf, skim, and fzy in the order specified. please note that fzy
+doesn't support showing previews as of fzy version 1.0.
+
+the default username key is 'user' and the default URL key is 'url'.
+
+if a custom web browser value is provided, $PROGRAM tessen uses it otherwise,
+it falls back to using xdg-open. xdg-open is an optional dependency.
+
+$PROGRAM tessen uses red color to show error messages. To disable using red
+color, use the $NO_COLOR environment variable and set its value to anything you
+like (true, 1, yes).
+
+for reporting bugs or feedback, visit one of the following git forge providers
+https://git.sr.ht/~ayushnix/pass-tessen
+https://codeberg.com/ayushnix/pass-tessen
+https://gitlab.com/ayushnix/pass-tessen
+https://github.com/ayushnix/pass-tessen
+"
 }
 
 while [[ $# -gt 0 ]]; do
