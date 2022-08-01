@@ -2,6 +2,8 @@
 # SPDX-License-Identifier: GPL-2.0-only
 # Copyright (C) 2021 Ayush Agarwal <ayushnix at fastmail dot com>
 #
+# vim: set expandtab ts=2 sw=2 sts=2:
+#
 # pass tessen - Password Store Extension (https://www.passwordstore.org)
 # a fuzzy data selection interface for pass using fzf
 # ------------------------------------------------------------------------------
