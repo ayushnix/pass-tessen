@@ -216,10 +216,24 @@ find_fz_backend() {
   unset -v fz_prog idx
 }
 
-# function for performing cleanup jobs on errors
-tsn_die() {
-  "$TSN_CLIP_CMD" "${TSN_CLIP_CMD_ARGS[*]-}" "${TSN_CLIP_CMD_CLEAR_ARGS[*]-}"
-  unset -v TSN_PASSFILE TSN_USERNAME TSN_PASSWORD TSN_PASSDATA_ARR TSN_KEY
+init_fz_backend() {
+  case "$fz_backend" in
+    fzf)
+      if [[ -z $FZF_DEFAULT_OPTS ]]; then
+        fz_backend_opts=("--no-multi" "--height=50" "--no-info" "--prompt='pass: '" "--reverse")
+      else
+        fz_backend_opts=("${FZF_DEFAULT_OPTS[@]}")
+      fi
+      ;;
+    sk)
+      if [[ -z $SKIM_DEFAULT_OPTIONS ]]; then
+        fz_backend_opts=("--no-multi" "--height=50" "--prompt='pass: '" "--reverse")
+      else
+        fz_backend_opts=("${SKIM_DEFAULT_OPTIONS[@]}")
+      fi
+      ;;
+    fzy) fz_backend_opts=("--lines=20" "--prompt='pass: '") ;;
+  esac
 }
 
 # the help menu
