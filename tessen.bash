@@ -220,9 +220,9 @@ find_fz_backend() {
     _die "error: unable to find a fuzzy selection program"
   fi
 
-  init_fz_backend
-
   unset -v fz_prog idx
+
+  init_fz_backend
 }
 
 # initialize the default options for the fuzzy selection backend program
