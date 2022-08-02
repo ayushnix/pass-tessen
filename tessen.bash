@@ -28,18 +28,15 @@ tsn_urlkey="url"
 
 # FIRST MENU: generate list of password store files and let user select one
 get_pass_file() {
-  local tmp_prefix="${PREFIX:-$PASSWORD_STORE_DIR}"
-  if ! [[ -d $tmp_prefix ]]; then
-    _die "error: password store directory not found"
-  fi
-
   local -a tmp_pass_files
+
   shopt -s nullglob globstar
-  tmp_pass_files=("$tmp_prefix"/**/*.gpg)
-  tmp_pass_files=("${tmp_pass_files[@]#"$tmp_prefix"/}")
+  tmp_pass_files=("$PREFIX"/**/*.gpg)
+  tmp_pass_files=("${tmp_pass_files[@]#"$PREFIX"/}")
   tmp_pass_files=("${tmp_pass_files[@]%.gpg}")
   shopt -u nullglob globstar
 
+  # fzy doesn't support previewing selected data
   if [[ $fz_preview == "true" ]] && [[ $fz_backend != "fzy" ]]; then
     tsn_passfile="$(printf "%s\n" "${tmp_pass_files[@]}" \
       | "$fz_backend" "${fz_backend_opts[@]}" --preview='pass show {}')"
@@ -48,11 +45,11 @@ get_pass_file() {
       | "$fz_backend" "${fz_backend_opts[@]}")"
   fi
 
-  if ! [[ -f "$tmp_prefix/$tsn_passfile".gpg ]]; then
+  if ! [[ -f "$PREFIX/$tsn_passfile".gpg ]]; then
     _die "error: input not received or selected file not found"
   fi
 
-  unset -v tmp_pass_files tmp_prefix
+  unset -v tmp_pass_files
 }
 
 # parse the selected password store file in the FIRST MENU
