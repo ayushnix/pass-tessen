@@ -79,14 +79,14 @@ get_pass_data() {
     val="${idx#*: }"
     if [[ ${key,,} == "password" ]]; then
       continue
-    elif [[ ${key,,} =~ ^$tsn_userkey$ ]] && [[ -z $tsn_username ]]; then
-      tsn_userkey="${key,,}"
-      tsn_username="$val"
-    elif [[ ${key,,} =~ ^$tsn_urlkey$ ]] && [[ -z $tsn_url ]]; then
-      tsn_urlkey="${key,,}"
-      tsn_url="$val"
     elif [[ $idx =~ $otp_regex ]] && [[ $tsn_otp == "false" ]]; then
       tsn_otp=true
+    elif [[ $idx =~ $keyval_regex ]] && [[ ${key,,} =~ ^$tsn_userkey$ ]] && [[ -z $tsn_username ]]; then
+      tsn_userkey="${key,,}"
+      tsn_username="$val"
+    elif [[ $idx =~ $keyval_regex ]] && [[ ${key,,} =~ ^$tsn_urlkey$ ]] && [[ -z $tsn_url ]]; then
+      tsn_urlkey="${key,,}"
+      tsn_url="$val"
     elif [[ $idx =~ $keyval_regex ]] && [[ -z ${tsn_passdata["$key"]} ]]; then
       tsn_passdata["$key"]="$val"
     fi
