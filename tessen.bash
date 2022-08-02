@@ -180,11 +180,11 @@ tsn_clip() {
   local -a tsn_clip_cmd tsn_clip_args
 
   if [[ -n $WAYLAND_DISPLAY ]]; then
-    tsn_clip_cmd=("wl-copy" "--trim-newline")
-    tsn_clip_args=("--clear")
+    tsn_clip_cmd=(wl-copy --trim-newline)
+    tsn_clip_args=(--clear)
   else
-    tsn_clip_cmd=("xclip" "-selection" "clipboard" "-rmlastnl")
-    tsn_clip_args=("-i" "/dev/null")
+    tsn_clip_cmd=(xclip -selection clipboard -rmlastnl)
+    tsn_clip_args=(-i /dev/null)
   fi
 
   if [[ -n $1 ]]; then
