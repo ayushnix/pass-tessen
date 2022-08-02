@@ -44,7 +44,7 @@ get_pass_file() {
   fi
 
   if ! [[ -f "$tmp_prefix/$tsn_passfile".gpg ]]; then
-    _die "error: the selected file was not found"
+    _die "error: input not received or selected file not found"
   fi
 
   unset -v tmp_pass_files tmp_prefix
