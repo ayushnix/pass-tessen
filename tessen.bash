@@ -11,6 +11,11 @@
 # disable debug mode to prevent leaking sensitive password store data
 set +x
 
+# list of variables inherited from password-store.sh used in this extension
+# PREFIX    - the location of password store
+# CLIP_TIME - the time for which data should be kept in the clipboard
+# PROGRAM   - the name of password-store, pass
+
 # initialize global variables
 readonly tsn_version="2.0.0"
 declare tsn_passfile fz_backend tsn_password tsn_username tsn_userkey tsn_urlkey
