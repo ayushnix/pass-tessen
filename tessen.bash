@@ -228,19 +228,15 @@ init_fz_backend() {
   case "$fz_backend" in
     fzf)
       if [[ -z $FZF_DEFAULT_OPTS ]]; then
-        fz_backend_opts=("--no-multi" "--height=50" "--no-info" "--prompt=pass: " "--reverse")
-      else
-        fz_backend_opts=("${FZF_DEFAULT_OPTS[@]}")
+        fz_backend_opts=(--no-multi --height=30 --no-info --prompt='pass: ' --reverse)
       fi
       ;;
     sk)
       if [[ -z $SKIM_DEFAULT_OPTIONS ]]; then
-        fz_backend_opts=("--no-multi" "--height=50" "--prompt=pass: " "--reverse")
-      else
-        fz_backend_opts=("${SKIM_DEFAULT_OPTIONS[@]}")
+        fz_backend_opts=(--no-multi --height=30 --prompt='pass: ' --reverse)
       fi
       ;;
-    fzy) fz_backend_opts=("--lines=20" "--prompt=pass: ") ;;
+    fzy) fz_backend_opts=(--lines=20 --prompt='pass: ') ;;
   esac
 }
 
