@@ -283,7 +283,11 @@ $PROGRAM tessen -v             show the version of pass tessen
 
 if no fuzzy selection program is specified, $PROGRAM tessen looks for either
 one of fzf, skim, and fzy in the order specified. please note that fzy
-doesn't support showing previews as of fzy version 1.0.
+doesn't support showing previews as of fzy version 1.0. to specify options for
+fzf and skim, use
+
+FZF_DEFAULT_OPTS=\"--height 20 --prompt='pass: ' --reverse\" pass tessen
+SKIM_DEFAULT_OPTIONS=\"--height 20 --prompt='pass: ' --reverse\" pass tessen -f sk
 
 the default username key is 'user' and the default URL key is 'url'.
 
