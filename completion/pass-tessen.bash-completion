@@ -1,7 +1,7 @@
 PASSWORD_STORE_EXTENSION_COMMANDS+=(tessen)
 
 __password_store_extension_complete_tessen() {
-  local args=(-p --preview -h --help -v --version)
+  local args=(-p --preview -f --fuzzy -u --userkey -U --urlkey -w --web-browser -h --help -v --version)
   COMPREPLY+=($(compgen -W "${args[*]}" -- ${cur}))
   _pass_complete_entries
 }
