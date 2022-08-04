@@ -301,7 +301,7 @@ color, use the $NO_COLOR environment variable and set its value to anything you
 like (true, 1, yes).
 
 for reporting bugs or feedback, visit one of the following git forge providers
-https://sr.ht/ayushnix/pass-tessen
+https://sr.ht/~ayushnix/pass-tessen
 https://codeberg.org/ayushnix/pass-tessen
 https://github.com/ayushnix/pass-tessen
 "

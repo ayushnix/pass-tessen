@@ -17,7 +17,7 @@ discussion on GitHub][8].
 
 Thanks!
 
-[1]: https://sr.ht/ayushnix/pass-tessen
+[1]: https://sr.ht/~ayushnix/pass-tessen
 [2]: https://github.com/koalaman/shellcheck
 [3]: https://github.com/mvdan/sh
 [4]: https://todo.sr.ht/~ayushnix/pass-tessen
