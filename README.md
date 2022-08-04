@@ -98,7 +98,7 @@ You can also do `doas make install` if you're using [doas][18] on Linux, which y
 ### Stable Release
 
 ```
-wget https://git.sr.ht/~ayushnix/pass-tessen/refs/download/v2.0.1/pass-tessen-2.0.1.tar.gz
+curl -LO https://git.sr.ht/~ayushnix/pass-tessen/refs/download/v2.0.1/pass-tessen-2.0.1.tar.gz
 tar xvzf pass-tessen-2.0.1.tar.gz
 cd pass-tessen-2.0.1
 sudo make install
