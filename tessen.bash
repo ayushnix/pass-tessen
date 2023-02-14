@@ -74,7 +74,7 @@ get_pass_data() {
   # we've assumed that keys are unique and if they aren't, the first non-unique
   # key will be considered and other non-unique keys will be ignored
   # this has been done to improve performance and eliminate ambiguity
-  for idx in "${passdata[@]:1}"; do
+  for idx in "${passdata[@]}"; do
     key="${idx%%:*}"
     val="${idx#*: }"
     if [[ ${key,,} == "password" ]]; then
