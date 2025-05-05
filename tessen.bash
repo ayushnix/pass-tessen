@@ -182,6 +182,8 @@ tsn_clip() {
   if [[ -n $WAYLAND_DISPLAY ]]; then
     tsn_clip_cmd=(wl-copy --trim-newline)
     tsn_clip_args=(--clear)
+  elif command -v pbcopy > /dev/null; then
+    tsn_clip_cmd=(pbcopy)
   else
     tsn_clip_cmd=(xclip -selection clipboard -rmlastnl)
     tsn_clip_args=(-i /dev/null)
@@ -192,7 +194,11 @@ tsn_clip() {
     printf "%s\n" "data has been copied and will be cleared from the clipboard after $CLIP_TIME seconds"
     {
       sleep "$CLIP_TIME" || kill 0
-      "${tsn_clip_cmd[@]}" "${tsn_clip_args[@]}"
+      if [[ -n ${tsn_clip_args[*]} ]]; then
+        "${tsn_clip_cmd[@]}" "${tsn_clip_args[@]}"
+      else
+        "${tsn_clip_cmd[@]}" <<< ''
+      fi
     } > /dev/null 2>&1 &
   else
     _die "error: no data found for copying"
